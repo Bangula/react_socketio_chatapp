@@ -49,7 +49,8 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/signin", (req, res) => {
-  const { email, password } = req.body;
+  const email = req.body.email;
+  const password = req.body.password;
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {

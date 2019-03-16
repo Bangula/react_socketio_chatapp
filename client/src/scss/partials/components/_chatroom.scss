@@ -1,0 +1,32 @@
+.chatApp {
+  overflow: hidden;
+  position: fixed;
+  margin: 0 auto;
+  left: 0px;
+  right: 0px;
+  height: 80%;
+  top: 10%;
+  padding: 20px;
+
+  button {
+    width: 100%;
+  }
+  form {
+    position: absolute;
+    bottom: 20px;
+    width: 98%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
+  .messages {
+    height: 75%;
+    overflow: auto;
+    padding-bottom: 50px;
+    .mssg-text {
+      padding: 2px 5px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+  }
+}

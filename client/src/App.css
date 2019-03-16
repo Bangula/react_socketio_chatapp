@@ -1,2 +1,2 @@
-.register-form{width:50%;margin:0 auto;margin-top:10%;padding:20px}
+.register-form{width:400px;margin:0 auto;margin-top:10%;padding:20px}.chatApp{overflow:hidden;position:fixed;margin:0 auto;left:0px;right:0px;height:80%;top:10%;padding:20px}.chatApp button{width:100%}.chatApp form{position:absolute;bottom:20px;width:98%;margin:0 auto;left:0;right:0}.chatApp .messages{height:75%;overflow:auto;padding-bottom:50px}.chatApp .messages .mssg-text{padding:2px 5px;border-radius:5px;display:inline-block}
 /*# sourceMappingURL=App.css.map */

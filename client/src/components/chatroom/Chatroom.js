@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import socketClient from "socket.io-client";
 import { connect } from "react-redux";
 import Messages from "./Messages";
+import PropTypes from "prop-types";
+
+import mssgSound from "../../audio/intuition.mp3";
 
 class Chatroom extends Component {
   constructor() {
@@ -13,44 +16,56 @@ class Chatroom extends Component {
     mssgToSend: "",
     recivedMssg: "",
     mssgList: [],
-    socket: null
+    typing: null,
+    socket: null,
+    value: null
   };
 
   componentDidMount() {
     const socket = socketClient.connect("/");
-
-    if (!localStorage.jwtToken) {
-      this.props.history.push({ pathname: "/signin" });
-    }
-
     this.setState({
       socket
     });
 
     socket.on("chat", data => {
-      console.log(data);
       this.setState({
         mssgList: [...this.state.mssgList, data]
       });
+      if (data.name) {
+        let sound = new Audio(mssgSound);
+        sound.volume = 0.5;
+        sound.play();
+      }
     });
 
     socket.on("typing", data => {
       console.log(data);
+      this.setState({
+        typing: data.name,
+        value: data.mssg
+      });
     });
   }
-  onTyping = () => {
-    const { socket } = this.state;
-    socket.emit("typing", {
-      name: this.props.userName
-    });
-  };
+
   handleChange = e => {
-    this.setState({
-      mssgToSend: e.target.value
-    });
+    let { socket } = this.state;
+    this.setState(
+      {
+        mssgToSend: e.target.value
+      },
+      () => {
+        socket.emit("typing", {
+          name: this.props.userName,
+          mssg: this.state.mssgToSend
+        });
+      }
+    );
   };
   sendMessage = e => {
     e.preventDefault();
+    if (this.state.mssgToSend === "") {
+      return;
+    }
     const { socket } = this.state;
     socket.emit("chat", {
       name: this.props.userName,
@@ -59,23 +74,27 @@ class Chatroom extends Component {
     this.setState({
       mssgToSend: ""
     });
-    this.scrollDiv.current.scrollTop = this.scrollDiv.current.scrollHeight - 50;
+    this.scrollDiv.current.scrollTop = this.scrollDiv.current.scrollHeight;
   };
   render() {
     return (
       <div className="container chatApp z-depth-5">
-        <h3 className="center-align teal-text text-darken-1">
-          Welcome to chat room
-        </h3>
+        <h5 className="center-align teal-text text-darken-1">
+          Chat with other developers
+        </h5>
 
         <div className="messages" ref={this.scrollDiv}>
           <Messages mssgList={this.state.mssgList} />
         </div>
-
+        <div className="hos-typing">
+          <span className="grey-text">
+            {this.state.value ? `${this.state.typing} is typing...` : ""}
+          </span>
+        </div>
         <form onSubmit={this.sendMessage}>
           <input
+            onKeyUp={this.handleChange}
             onChange={this.handleChange}
-            onKeyPress={this.onTyping}
             placeholder="Your message..."
             value={this.state.mssgToSend}
           />
@@ -87,6 +106,10 @@ class Chatroom extends Component {
     );
   }
 }
+
+Chatroom.propTypes = {
+  userName: PropTypes.string
+};
 
 const mapStateToProps = state => ({
   userName: state.user.user.name

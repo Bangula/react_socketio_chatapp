@@ -19,7 +19,7 @@ class Register extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    this.props.registerUser(this.state);
+    this.props.registerUser(this.state, this.props.history);
   };
   clearInputErrors = () => {
     this.props.clearErrors();

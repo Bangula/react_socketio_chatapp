@@ -5,6 +5,8 @@ import M from "materialize-css/dist/js/materialize.js";
 
 import SignedInLinks from "./SignedInLinks";
 import NotSignedInLinks from "./NotSignedInLinks";
+import SignedInSidenav from "./SignedInSidenav";
+import NotSignedInSidenav from "./NotSignedSidenav";
 
 class Navbar extends Component {
   sideNav = React.createRef();
@@ -40,17 +42,12 @@ class Navbar extends Component {
             </div>
           </nav>
         </div>
-        <ul className="sidenav" id="mobile-links" ref={this.sideNav}>
-          <li className="center">
-            <span>Logo</span>
-          </li>
-          <li>
-            <NavLink to="/">About</NavLink>
-          </li>
-          <li>
-            <NavLink to="/work">My Work</NavLink>
-          </li>
-        </ul>
+
+        {this.props.isAuthenticated ? (
+          <SignedInSidenav />
+        ) : (
+          <NotSignedInSidenav sideNav={this.sideNav} />
+        )}
       </div>
     );
   }

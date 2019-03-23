@@ -2,12 +2,18 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "../../utils/setAuthToken";
 
-export const registerUser = user => {
+export const registerUser = (user, history) => {
   return (dispatch, getState) => {
     axios
       .post("/api/users/register", user)
       .then(res => {
         console.log(res.data);
+        history.push({
+          pathname: "/signin",
+          state: {
+            status: "Registration successfull. Please log in to proceed."
+          }
+        });
         dispatch({
           type: "SIGNUP_SUCCESS",
           payload: res.data

@@ -8,6 +8,7 @@ class Login extends Component {
     email: "",
     password: ""
   };
+
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
@@ -20,7 +21,10 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container login-page">
+        <h6 className="center-align light-blue-text text-accent-3">
+          {this.props.location.state ? this.props.location.state.status : null}
+        </h6>
         <div className="register-form z-depth-3">
           <h3 className="center-align">Log in</h3>
           <form onSubmit={this.handleSubmit}>

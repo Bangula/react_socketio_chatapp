@@ -31,7 +31,7 @@ class Chatroom extends Component {
       this.setState({
         mssgList: [...this.state.mssgList, data]
       });
-      if (data.name) {
+      if (data.name && data.name !== this.props.userName) {
         let sound = new Audio(mssgSound);
         sound.volume = 0.5;
         sound.play();

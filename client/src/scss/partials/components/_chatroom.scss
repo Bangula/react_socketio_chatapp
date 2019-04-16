@@ -1,3 +1,4 @@
+
 .chatApp {
   overflow: hidden;
   position: fixed;
@@ -22,7 +23,7 @@
   .messages {
     height: 75%;
     overflow: auto;
-    padding-bottom: 50px;
+    padding-bottom: 30px;    
     .mssg-text {
       padding: 2px 5px;
       border-radius: 5px;
